@@ -34,25 +34,25 @@ public class Correr : MonoBehaviour {
 	public bool bloquearX, bloquearY, bloquearZ;
 		
 	void Update () {
-		Movimentar();
+		Movimentar(eixoParaX, eixoParaY, eixoParaZ);
 	}
 
-	public void Movimentar() {
+	public void Movimentar(string eixo_x, string eixo_y, string eixo_z) {
 		float final_x = bloquearX 
 						? 0
 						: (usarEixosPuros
-							? Input.GetAxisRaw(eixoParaX)
-							: Input.GetAxis(eixoParaX)) * Time.deltaTime * velocidade;
+							? Input.GetAxisRaw(eixo_x)
+							: Input.GetAxis(eixo_x)) * Time.deltaTime * velocidade;
 		float final_y = bloquearY
 						? 0
 						: (usarEixosPuros
-							? Input.GetAxisRaw(eixoParaY)
-							: Input.GetAxis(eixoParaY)) * Time.deltaTime * velocidade;
+							? Input.GetAxisRaw(eixo_y)
+							: Input.GetAxis(eixo_y)) * Time.deltaTime * velocidade;
 		float final_z = bloquearZ
 						? 0
 						: (usarEixosPuros
-							? Input.GetAxisRaw(eixoParaZ)
-							: Input.GetAxis(eixoParaZ)) * Time.deltaTime * velocidade;
+							? Input.GetAxisRaw(eixo_z)
+							: Input.GetAxis(eixo_z)) * Time.deltaTime * velocidade;
 
 		corredor.Translate(final_x, final_y, final_z, relativoAo);
 	}
