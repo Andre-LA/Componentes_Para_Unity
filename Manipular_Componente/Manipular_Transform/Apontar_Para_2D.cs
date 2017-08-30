@@ -3,7 +3,7 @@
 public class Apontar_Para_2D : MonoBehaviour {
     #if UNITY_EDITOR
 
-    [Header("Para o Editor")]
+	[Header("Para o Editor")]
     [Tooltip("Isso desenhará uma linha (Gizmos) entre o apontador e o alvo")]
     public bool desenharLinhas = true;
     [Tooltip("Cor da linha entre os dois")]
@@ -54,6 +54,34 @@ public class Apontar_Para_2D : MonoBehaviour {
             
         return angulo_180;
     }
+
+	#region Definições
+
+    public void Definir_Apontador(Transform definicao) {
+		apontador = definicao;
+	}
+
+	public void Definir_Apontador_Por_Nome (string nome) {
+		apontador = GameObject.Find(nome).transform;
+	}
+
+	public void Definir_Apontador_Por_Tag (string etiqueta) {
+		apontador = GameObject.FindWithTag(etiqueta).transform;
+	}
+
+    public void Definir_Alvo(Transform definicao) {
+		alvo = definicao;
+	}
+
+	public void Definir_Alvo_Por_Nome (string nome) {
+		alvo = GameObject.Find(nome).transform;
+	}
+
+	public void Definir_Alvo_Por_Tag (string etiqueta) {
+		alvo = GameObject.FindWithTag(etiqueta).transform;
+	}
+
+	#endregion
 
     #if UNITY_EDITOR
 
