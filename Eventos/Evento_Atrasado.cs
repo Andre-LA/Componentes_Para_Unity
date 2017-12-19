@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.Events;
 
 public class Evento_Atrasado : MonoBehaviour {
-    [Tooltip("tempo de atraso")]
+    [Tooltip("tempo de atraso (em segundos)")]
     public float tempo;
     [Tooltip("se verdadeiro, a espera não é influenciada pela escala de tempo")]
     public bool independenteDeEscalaDeTempo;

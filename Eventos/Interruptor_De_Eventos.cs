@@ -16,4 +16,8 @@ public class Interruptor_De_Eventos : MonoBehaviour {
 			desligado.Invoke();
 		ambos.Invoke();
 	}
+
+    public void Ligar_Ou_Desligar(bool def) {
+        interruptorLigado = def;
+    }
 }

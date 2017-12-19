@@ -21,6 +21,7 @@ public class Auto_Destroi : MonoBehaviour {
 		}
 	}
 
+    // TODO Mudar para Destruir() no próximo projeto
 	public void Destrucao_Imediata() {
 		aoDestruir.Invoke();
 		Destroy(alvo);

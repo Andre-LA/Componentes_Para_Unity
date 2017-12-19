@@ -2,17 +2,17 @@ using UnityEngine;
 using UnityEngine.Events;
 
 public class Eventos_ColTrig_Condicional_porTag : MonoBehaviour {
-    [Tooltip("Se verdadeiro, essa função da Unity será executada")]
-    public bool 
-        usarColEnter,  usarColStay,  usarColExit,   // <-- On Colisions
+    [Tooltip("Se verdadeiro, essa função da Unity não será interrompida")]
+    public bool
+        usarColEnter,  usarColStay,  usarColExit,  // <-- On Colisions
         usarTrigEnter, usarTrigStay, usarTrigExit; // <-- On Triggers
     [Tooltip("Etiqueta para comparação, se a entiqueta for igual a etiqueta do objeto estrangeiro, então o evento correspondente será executado")]
     public string
-        casoTagOnColEnter,  casoTagOnColStay,  casoTagOnColExit,   // <-- On Colisions
+        casoTagOnColEnter,  casoTagOnColStay,  casoTagOnColExit,  // <-- On Colisions
         casoTagOnTrigEnter, casoTagOnTrigStay, casoTagOnTrigExit; // <-- On Triggers
 
     public UnityEvent
-        onColEnter,  onColStay,  onColExit,   // <-- On Colisions
+        onColEnter,  onColStay,  onColExit,  // <-- On Colisions
         onTrigEnter, onTrigStay, onTrigExit; // <-- On Triggers
 
     void OnCollisionEnter(Collision colisao) {
@@ -38,22 +38,54 @@ public class Eventos_ColTrig_Condicional_porTag : MonoBehaviour {
 
     void OnTriggerEnter(Collider colisor) {
         if (usarTrigEnter) {
-            if (colisor.gameObject.CompareTag(casoTagOnTrigEnter))
+            if (colisor.CompareTag(casoTagOnTrigEnter)) {
                 onTrigEnter.Invoke();
+            }
         }
     }
 
     void OnTriggerStay(Collider colisor) {
         if (usarTrigStay) {
-            if (colisor.gameObject.CompareTag(casoTagOnTrigStay))
+            if (colisor.CompareTag(casoTagOnTrigStay))
                 onTrigStay.Invoke();
         }
     }
 
     void OnTriggerExit(Collider colisor) {
         if (usarTrigExit) {
-            if (colisor.gameObject.CompareTag(casoTagOnTrigExit))
+            if (colisor.CompareTag(casoTagOnTrigExit))
                 onTrigExit.Invoke();
+        }
+    }
+
+    public void Definir_Uso_Como_Verdadeiro (string nome_da_variavel) {
+        Definir_Uso(nome_da_variavel, true);
+    }
+
+    public void Definir_Uso_Como_Falso (string nome_da_variavel) {
+        Definir_Uso(nome_da_variavel, false);
+    }
+
+    public void Definir_Uso(string nome_da_variavel, bool def) {
+        switch(nome_da_variavel) {
+            case "usarColEnter":
+                usarColEnter = def;
+            break;
+            case "usarColStay":
+                usarColStay = def;
+            break;
+            case "usarColExit":
+                usarColExit = def;
+            break;
+            case "usarTrigEnter":
+                usarTrigEnter = def;
+            break;
+            case "usarTrigStay":
+                usarTrigStay = def;
+            break;
+            case "usarTrigExit":
+                usarTrigExit = def;
+            break;
         }
     }
 }

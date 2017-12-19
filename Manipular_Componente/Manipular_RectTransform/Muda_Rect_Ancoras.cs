@@ -1,9 +1,6 @@
-﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class Muda_Rect_Ancoras : MonoBehaviour
-{
+public class Muda_Rect_Ancoras : MonoBehaviour {
     [Tooltip("RectTransform a ser manipulado")]
     public RectTransform rectTransform;
     [Tooltip("Valores das âncoras,\nas chaves x, y são para os x e y da âncora mínima\nE as chaves z e w são para os x e y da âncora máxima")]
@@ -40,7 +37,7 @@ public class Muda_Rect_Ancoras : MonoBehaviour
     public void Aplicar_Pos_Sem_Interpolacao() {
         Vector2 min = new Vector2(posicoesDeAncora[indice].x, posicoesDeAncora[indice].y);
         Vector2 max = new Vector2(posicoesDeAncora[indice].z, posicoesDeAncora[indice].w);
-        
+
         if (!manterInferiorEsquerdo)
             rectTransform.anchorMin = min;
 
@@ -49,13 +46,15 @@ public class Muda_Rect_Ancoras : MonoBehaviour
     }
 
     void Update() {
-        Vector2 min = new Vector2(posicoesDeAncora[indice].x, posicoesDeAncora[indice].y);
-        Vector2 max = new Vector2(posicoesDeAncora[indice].z, posicoesDeAncora[indice].w);
         float dt = independenteDeTimeScale ? Time.unscaledDeltaTime : Time.deltaTime;
-
-        if (!manterInferiorEsquerdo)
+        
+        if (!manterInferiorEsquerdo) {
+            Vector2 min = new Vector2(posicoesDeAncora[indice].x, posicoesDeAncora[indice].y);
             rectTransform.anchorMin = Vector2.Lerp(rectTransform.anchorMin, min, velocidade * dt);
-        if (!manterSuperiorDireito)
+        }
+        if (!manterSuperiorDireito) {
+            Vector2 max = new Vector2(posicoesDeAncora[indice].z, posicoesDeAncora[indice].w);
             rectTransform.anchorMax = Vector2.Lerp(rectTransform.anchorMax, max, velocidade * dt);
+        }
     }
 }
