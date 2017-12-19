@@ -16,8 +16,10 @@ public class Eventos_Remotos : MonoBehaviour {
     public void Definir_Eventos_Remotos_Por_Nome(string nome) {
         eventosRemotos = GameObject.Find(nome).GetComponent<Eventos>();
     }
-
     public void Definir_Eventos_Remotos_Por_Etiqueta(string etiqueta) {
         eventosRemotos = GameObject.FindWithTag(etiqueta).GetComponent<Eventos>();
+    }
+    public void Definir_Eventos (Eventos def) {
+        eventosRemotos = def;
     }
 }

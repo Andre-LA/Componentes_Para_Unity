@@ -1,5 +1,3 @@
-﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -20,7 +18,7 @@ public class Instanciador_De_Gbjs : MonoBehaviour {
 	[Tooltip("Alvo de referência para a instanciação")]
 	public Transform alvo;
 	public UnityEvent aoInstanciar;
-	
+
 	public void Instanciar() {
 		Vector3 posicao_final = usarPosicaoDoAlvo ? alvo.position : transform.position;
 		Quaternion rotacao_final = usarRotacaoDoAlvo ? alvo.rotation : transform.rotation;
@@ -54,7 +52,7 @@ public class Instanciador_De_Gbjs : MonoBehaviour {
 			default:
 				Debug.LogError("O valor de operação DEVE ser incremento ou decremento");
 			break;
-		} 
+		}
 	}
 
 	public void Definir_Indice_Do_Modelo(int definicao) {

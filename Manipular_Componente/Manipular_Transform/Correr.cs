@@ -14,9 +14,11 @@ public class Correr : MonoBehaviour {
 
 	#endif
 
-	[Header("Componente Transform")]
+	[Header("Componentes")]
 	[Tooltip("Os valores de posição desse Transform que serão modificados ao correr")]
 	public Transform corredor;
+    [Tooltip("A entrada de controle funcionará através do componente Controle Virtual")]
+    public Controle_Virtual controleVirtual;
 	
 	[Header("Eixos e velocidade")]
 	[Tooltip("Velocidade de movimento")]	
@@ -24,10 +26,7 @@ public class Correr : MonoBehaviour {
 
 	[Tooltip("São os eixos para o Input.GetAxis")]
 	public string eixoParaX, eixoParaY, eixoParaZ;
-	
-	[Tooltip("Isso ativa o uso de Input.GetRawAxis ao invés de Input.GetAxis, a direfença é que não há aquela suavização quando solta/aperta")]
-	public bool usarEixosPuros;
-	
+
 	[Tooltip("World é relativo ao mundo, Self é local")]
 	public Space relativoAo;
 	
@@ -54,19 +53,13 @@ public class Correr : MonoBehaviour {
 	public void Movimentar(string eixo_x, string eixo_y, string eixo_z) {
 		float final_x = bloquearX 
 							? 0
-							: (usarEixosPuros
-								? Input.GetAxisRaw(eixo_x)
-								: Input.GetAxis(eixo_x));
+							: controleVirtual.Obter_Valor_Flutuante(eixo_x);
 		float final_y = bloquearY
 							? 0
-							: (usarEixosPuros
-								? Input.GetAxisRaw(eixo_y)
-								: Input.GetAxis(eixo_y));
+							: controleVirtual.Obter_Valor_Flutuante(eixo_y);
 		float final_z = bloquearZ
 							? 0
-							: (usarEixosPuros
-								? Input.GetAxisRaw(eixo_z)
-								: Input.GetAxis(eixo_z));
+							: controleVirtual.Obter_Valor_Flutuante(eixo_z);
 		Movimentar_Eixos_Dados(final_x, final_y, final_z);
 	}
 
@@ -154,21 +147,15 @@ public class Correr : MonoBehaviour {
 		if (desenharLinhas && corredor) {
 			Gizmos.color = corDaSeta;
 
-			float final_x = bloquearX
-								? 0
-								: (usarEixosPuros
-									? Input.GetAxisRaw(eixoParaX)
-									: Input.GetAxis(eixoParaX)) * Time.deltaTime * velocidade;
-			float final_y = bloquearY
-								? 0
-								: (usarEixosPuros
-									? Input.GetAxisRaw(eixoParaY)
-									: Input.GetAxis(eixoParaY)) * Time.deltaTime * velocidade;
-			float final_z = bloquearZ
-								? 0
-								: (usarEixosPuros
-									? Input.GetAxisRaw(eixoParaZ)
-									: Input.GetAxis(eixoParaZ)) * Time.deltaTime * velocidade;
+            float final_x = bloquearX
+            					? 0
+          					  	: controleVirtual.Obter_Valor_Flutuante(eixoParaX) * Time.deltaTime * velocidade;
+            float final_y = bloquearY
+           					 	? 0
+           					 	: controleVirtual.Obter_Valor_Flutuante(eixoParaY) * Time.deltaTime * velocidade;
+            float final_z = bloquearZ
+           					 	? 0
+          					 	: controleVirtual.Obter_Valor_Flutuante(eixoParaZ) * Time.deltaTime * velocidade;
 
 			Vector3 direcao = new Vector3(final_x, final_y, final_z);
 			direcao.Normalize();

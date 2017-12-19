@@ -8,9 +8,19 @@ public class Escreve_FPS : MonoBehaviour {
 	public string prefixo;
 	[Tooltip("Texto que será incluido depois do número de fps")]
 	public string sufixo;
+	[Tooltip("Intervalo em segundos para a atualização de texto")]
+	public float intervalo;
+	float ultima_atualizacao;
 	
+	void Start() {
+		ultima_atualizacao = Time.unscaledTime;
+	}
+
 	void Update () {
-		float fps = 1f / Time.smoothDeltaTime;
-		texto.text = string.Concat(prefixo, fps, sufixo);
+		if (Time.unscaledTime - ultima_atualizacao > intervalo) {
+			ultima_atualizacao = Time.unscaledTime;
+			float fps = 1f / Time.smoothDeltaTime;
+			texto.text = string.Concat(prefixo, fps, sufixo);
+		}
 	}
 }

@@ -5,7 +5,7 @@ public enum Condicoes {
     diferente,
     maiorOuIgualAQue,
     menorOuIgualAQue,
-};
+}
 
 public enum Operadores {
     adicao,
@@ -42,6 +42,41 @@ public enum Tipos {
     booleano,
 }
 
-public enum TiposGUI {
-		Imagem, Texto
+public enum Componentes_Com_Cor {
+	Imagem,
+    Texto,
+    Botao,
+    Sprite_Renderer,
+}
+
+public enum Formas_De_Obter_Eixos {
+    Obter_Eixos,
+    Obter_Eixos_Puros,
+    Obter_Botao,
+    Obter_Botao_Baixo,
+    Obter_Botao_Cima,
+    Nao_Obter,
+}
+
+public enum OrdemNumerica {
+    SequencialIncremento,
+    SequencialDecremento,
+    Aleatoria,
+}
+
+public enum Plataforma {
+    PC,
+    Console,
+    Mobile,
+    VR,
+}
+
+public enum Configuracao {
+    Qualidade,
+    Resolucao,
+    TelaCheia,
+    VSync,
+    VolumeGeral,
+    VolumeMusica,
+    VolumeEfeitosSonoros,
 }

@@ -127,6 +127,12 @@ public class Muda_Transform_Tween : MonoBehaviour {
 
 	#endregion
 
+	#region segundos
+	public void Definir_Segundos(float definicao) {
+		tempoSegs = definicao;
+	}
+	#endregion
+
 	#endregion
 
     void Start () {
