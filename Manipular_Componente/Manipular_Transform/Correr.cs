@@ -1,168 +1,171 @@
 ﻿using UnityEngine;
 using UnityEngine.Events;
+using Componentes_Para_Unity.Componentes_Especificos;
 
-public class Correr : MonoBehaviour {
+namespace Componentes_Para_Unity.Manipular_Componente.Manipular_Transform {
+    public class Correr : MonoBehaviour {
 
-	#if UNITY_EDITOR
+    	#if UNITY_EDITOR
 
-	[Header("Para o Editor")]
-    [Tooltip("Isso desenhará uma linha (Gizmos) entre o apontador e o alvo")]
-    public bool desenharLinhas = true;
+    	[Header("Para o Editor")]
+        [Tooltip("Isso desenhará uma linha (Gizmos) entre o apontador e o alvo")]
+        public bool desenharLinhas = true;
 
-    [Tooltip("Cor da seta de movimento")]
-    public Color corDaSeta = Color.red;
+        [Tooltip("Cor da seta de movimento")]
+        public Color corDaSeta = Color.red;
 
-	#endif
+    	#endif
 
-	[Header("Componentes")]
-	[Tooltip("Os valores de posição desse Transform que serão modificados ao correr")]
-	public Transform corredor;
-    [Tooltip("A entrada de controle funcionará através do componente Controle Virtual")]
-    public Controle_Virtual controleVirtual;
-	
-	[Header("Eixos e velocidade")]
-	[Tooltip("Velocidade de movimento")]	
-	public float velocidade;
+    	[Header("Componentes")]
+    	[Tooltip("Os valores de posição desse Transform que serão modificados ao correr")]
+    	public Transform corredor;
+        [Tooltip("A entrada de controle funcionará através do componente Controle Virtual")]
+        public Controle_Virtual controleVirtual;
 
-	[Tooltip("São os eixos para o Input.GetAxis")]
-	public string eixoParaX, eixoParaY, eixoParaZ;
+    	[Header("Eixos e velocidade")]
+    	[Tooltip("Velocidade de movimento")]
+    	public float velocidade;
 
-	[Tooltip("World é relativo ao mundo, Self é local")]
-	public Space relativoAo;
-	
-	[Header("Trancas e Bloqueios")]	
-	[Tooltip("Esse eixo não será movimentado")]
-	public bool autoExecutar;
-	public bool bloquearX, bloquearY, bloquearZ;
-	
+    	[Tooltip("São os eixos para o Input.GetAxis")]
+    	public string eixoParaX, eixoParaY, eixoParaZ;
 
-	[Header("Eventos")]
-	[Tooltip("Ao iniciar corrida")]
-	public UnityEvent aoIniciarCorrida;
+    	[Tooltip("World é relativo ao mundo, Self é local")]
+    	public Space relativoAo;
 
-    [Tooltip("Ao parar corrida")]
-	public UnityEvent aoTerminarCorrida;
+    	[Header("Trancas e Bloqueios")]
+    	[Tooltip("Esse eixo não será movimentado")]
+    	public bool autoExecutar;
+    	public bool bloquearX, bloquearY, bloquearZ;
 
-    bool estaCorrendo;
 
-    void Update () {
-		if (autoExecutar)
-			Movimentar(eixoParaX, eixoParaY, eixoParaZ);
-	}
+    	[Header("Eventos")]
+    	[Tooltip("Ao iniciar corrida")]
+    	public UnityEvent aoIniciarCorrida;
 
-	public void Movimentar(string eixo_x, string eixo_y, string eixo_z) {
-		float final_x = bloquearX 
-							? 0
-							: controleVirtual.Obter_Valor_Flutuante(eixo_x);
-		float final_y = bloquearY
-							? 0
-							: controleVirtual.Obter_Valor_Flutuante(eixo_y);
-		float final_z = bloquearZ
-							? 0
-							: controleVirtual.Obter_Valor_Flutuante(eixo_z);
-		Movimentar_Eixos_Dados(final_x, final_y, final_z);
-	}
+        [Tooltip("Ao parar corrida")]
+    	public UnityEvent aoTerminarCorrida;
 
-	public void Movimentar_Eixos_Dados(float eixo_x, float eixo_y, float eixo_z) {
-		if (!enabled)
-			return;
-			
-		if (eixo_x != 0 || eixo_y != 0 || eixo_z != 0) {
-			if (!estaCorrendo)
-				aoIniciarCorrida.Invoke();				
-			estaCorrendo = true;
-		} else {
-			if (estaCorrendo)
-				aoTerminarCorrida.Invoke();
-			estaCorrendo = false;
-		}
-		
-		float velocidade_final = Time.deltaTime * velocidade;
-		corredor.Translate(eixo_x * velocidade_final, eixo_y * velocidade_final, eixo_z * velocidade_final, relativoAo);
-	}
+        bool estaCorrendo;
 
-	public void Parou_Externamente_A_Corrida(bool executar_evento) {
-		estaCorrendo = false;
-		if (executar_evento)
-			aoTerminarCorrida.Invoke();
-	}
+        void Update () {
+    		if (autoExecutar)
+    			Movimentar(eixoParaX, eixoParaY, eixoParaZ);
+    	}
 
-	public void Iniciou_Externamente_A_Corrida(bool executar_evento) {
-		estaCorrendo = true;
-		if (executar_evento)
-			aoIniciarCorrida.Invoke();
-	}
+    	public void Movimentar(string eixo_x, string eixo_y, string eixo_z) {
+    		float final_x = bloquearX
+    							? 0
+    							: controleVirtual.Obter_Valor_Flutuante(eixo_x);
+    		float final_y = bloquearY
+    							? 0
+    							: controleVirtual.Obter_Valor_Flutuante(eixo_y);
+    		float final_z = bloquearZ
+    							? 0
+    							: controleVirtual.Obter_Valor_Flutuante(eixo_z);
+    		Movimentar_Eixos_Dados(final_x, final_y, final_z);
+    	}
 
-	public void Correr_Externamente_Em_X (float eixo_x) {
-		Movimentar_Eixos_Dados(eixo_x, 0f, 0f);
-	}
+    	public void Movimentar_Eixos_Dados(float eixo_x, float eixo_y, float eixo_z) {
+    		if (!enabled)
+    			return;
 
-	public void Correr_Externamente_Em_Y (float eixo_y) {
-		Movimentar_Eixos_Dados(0f, eixo_y, 0f);
-	}
+    		if (eixo_x != 0 || eixo_y != 0 || eixo_z != 0) {
+    			if (!estaCorrendo)
+    				aoIniciarCorrida.Invoke();
+    			estaCorrendo = true;
+    		} else {
+    			if (estaCorrendo)
+    				aoTerminarCorrida.Invoke();
+    			estaCorrendo = false;
+    		}
 
-	public void Correr_Externamente_Em_Z (float eixo_z) {
-		Movimentar_Eixos_Dados(0f, 0f, eixo_z);
-	}
+    		float velocidade_final = Time.deltaTime * velocidade;
+    		corredor.Translate(eixo_x * velocidade_final, eixo_y * velocidade_final, eixo_z * velocidade_final, relativoAo);
+    	}
 
-	#region Definicoes
+    	public void Parou_Externamente_A_Corrida(bool executar_evento) {
+    		estaCorrendo = false;
+    		if (executar_evento)
+    			aoTerminarCorrida.Invoke();
+    	}
 
-	public void Definir_Velocidade(float definicao) {
-		velocidade = definicao;
-	}
+    	public void Iniciou_Externamente_A_Corrida(bool executar_evento) {
+    		estaCorrendo = true;
+    		if (executar_evento)
+    			aoIniciarCorrida.Invoke();
+    	}
 
-	public void Definir_Corredor(Transform definicao) {
-		corredor = definicao;
-	}
+    	public void Correr_Externamente_Em_X (float eixo_x) {
+    		Movimentar_Eixos_Dados(eixo_x, 0f, 0f);
+    	}
 
-	public void Definir_Corredor_Por_Nome (string nome) {
-		corredor = GameObject.Find(nome).transform;
-	}
+    	public void Correr_Externamente_Em_Y (float eixo_y) {
+    		Movimentar_Eixos_Dados(0f, eixo_y, 0f);
+    	}
 
-	public void Definir_Corredor_Por_Tag (string etiqueta) {
-		corredor = GameObject.FindWithTag(etiqueta).transform;
-	}
+    	public void Correr_Externamente_Em_Z (float eixo_z) {
+    		Movimentar_Eixos_Dados(0f, 0f, eixo_z);
+    	}
 
-	#endregion
+    	#region Definicoes
 
-	public void Multiplicar_Velocidade (float multiplicador) {
-		velocidade *= multiplicador;
-	}
+    	public void Definir_Velocidade(float definicao) {
+    		velocidade = definicao;
+    	}
 
-	public void Dividir_Velocidade (float divisor) {
-		velocidade /= divisor;
-	}
+    	public void Definir_Corredor(Transform definicao) {
+    		corredor = definicao;
+    	}
 
-	public void Incrementar_Velocidade(float incrementador) {
-		velocidade += incrementador;
-	}
+    	public void Definir_Corredor_Por_Nome (string nome) {
+    		corredor = GameObject.Find(nome).transform;
+    	}
 
-	public void Decrementar_Velocidade(float decrementador) {
-		velocidade -= decrementador;
-	}
+    	public void Definir_Corredor_Por_Tag (string etiqueta) {
+    		corredor = GameObject.FindWithTag(etiqueta).transform;
+    	}
 
-	#if UNITY_EDITOR
+    	#endregion
 
-	void OnDrawGizmos() {
-		if (desenharLinhas && corredor) {
-			Gizmos.color = corDaSeta;
+    	public void Multiplicar_Velocidade (float multiplicador) {
+    		velocidade *= multiplicador;
+    	}
 
-            float final_x = bloquearX
-            					? 0
-          					  	: controleVirtual.Obter_Valor_Flutuante(eixoParaX) * Time.deltaTime * velocidade;
-            float final_y = bloquearY
-           					 	? 0
-           					 	: controleVirtual.Obter_Valor_Flutuante(eixoParaY) * Time.deltaTime * velocidade;
-            float final_z = bloquearZ
-           					 	? 0
-          					 	: controleVirtual.Obter_Valor_Flutuante(eixoParaZ) * Time.deltaTime * velocidade;
+    	public void Dividir_Velocidade (float divisor) {
+    		velocidade /= divisor;
+    	}
 
-			Vector3 direcao = new Vector3(final_x, final_y, final_z);
-			direcao.Normalize();
-			Gizmos.DrawRay(corredor.position, direcao);
-			Gizmos.DrawWireSphere(corredor.position + direcao, 0.1f);
-		}
-	}
+    	public void Incrementar_Velocidade(float incrementador) {
+    		velocidade += incrementador;
+    	}
 
-	#endif
+    	public void Decrementar_Velocidade(float decrementador) {
+    		velocidade -= decrementador;
+    	}
+
+    	#if UNITY_EDITOR
+
+    	void OnDrawGizmos() {
+    		if (desenharLinhas && corredor) {
+    			Gizmos.color = corDaSeta;
+
+                float final_x = bloquearX
+                					? 0
+              					  	: controleVirtual.Obter_Valor_Flutuante(eixoParaX) * Time.deltaTime * velocidade;
+                float final_y = bloquearY
+               					 	? 0
+               					 	: controleVirtual.Obter_Valor_Flutuante(eixoParaY) * Time.deltaTime * velocidade;
+                float final_z = bloquearZ
+               					 	? 0
+              					 	: controleVirtual.Obter_Valor_Flutuante(eixoParaZ) * Time.deltaTime * velocidade;
+
+    			Vector3 direcao = new Vector3(final_x, final_y, final_z);
+    			direcao.Normalize();
+    			Gizmos.DrawRay(corredor.position, direcao);
+    			Gizmos.DrawWireSphere(corredor.position + direcao, 0.1f);
+    		}
+    	}
+
+    	#endif
+    }
 }
